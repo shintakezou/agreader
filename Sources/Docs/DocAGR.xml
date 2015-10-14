@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- XML source of AGR user's manual used to produce -->
+<!-- AmigaGuide, README and HTML format using XSL.   -->
+<manual>
+<cover>
+	<author>
+		<firstname>Thierry</firstname>
+		<lastname>Pierron</lastname>
+		<email>tpierron@free.fr</email>
+	</author>
+	<soft>AmigaGuide Reader</soft>
+	<version>1.2</version>
+	<copy>Free software under terms of GNU public license.</copy>
+	<short>AmigaGuide file reader, for Unix system.</short>
+	<long>AmigaGuide Reader (agr for short) is a tiny tool to read Amiga documentation format, in a user-friendly way (although console-based) similar to less. It supports all what is possible for v39 of AmigaGuide specifications and a great part of v40. Here is explained AmigaGuide functionnalities supported by agr and basic usage of this format.</long>
+	<type>misc/unix</type>
+	<requirement>Unix and vt100 compatible system (ie: NOT AmigaOS).</requirement>
+</cover>
+
+<readme>
+<p>This is an <em>AmigaGuide reader</em> for <em>Unix</em> system. It supports, now all what
+can be done for v39 of AmigaGuide specifications, and a great subset of v40
+specs. This version contains several bug fixes. See doc for full details
+of supported features.</p>
+</readme>
+
+<!-- Include possible summary here -->
+<summary/>
+
+<!-- Main content starts here -->
+<content>
+<chapter title="Introduction" desc="Introduction to AmigaGuide">
+
+<p>AmigaGuide format is, for all those who didn't have just heard something about it, a very old format, delivered with the earliest version of AmigaOS (as far I know, the v1.3 dated from 1985!) and looks like very closer to a subset of HTML.</p>
+
+<p>AmigaGuide <b>split the file into "nodes"</b>, and only one node at a time can be displayed. Moreover, it exists special AmigaGuide commands (similar to HTML anchor tags) that can <b>link nodes together</b>.</p>
+
+<p>The purpose of a such format is to display only relevant part of file, do not reveal the thousands lines that most documents are composed of. That's very important because most of time, we are just interrested by a very small part of the file, and because it's necessary to find quickly the desired piece of information, that AmigaGuide offers the possibility to structure very efficiently the content of the file.</p>
+
+<p>It's very <b>closer to HTML</b> format, except that more than one page can be "packed" into a single AmigaGuide document. This isn't a worse idea, since it greatly simplifies documentation management.</p>
+
+<p>By the time, AmigaGuide has evolved, and is now composed of a subsequent set of commands, that can produce nice and user-friendly documentations, and because I found nothing on Unix that can replace efficiently this format, I decide to write such program.</p>
+
+<p>This tool is supposed to implement all of the <b>v39 AmigaGuide Specifications</b>, or at least, all what can be done with a simple vt100 terminal, and more interresting, v40 in also supported. Since AmigaOS differs notably from Unix, some incompatibilities remains, that this documentation will describe, of course. Even if you're expert, please read them carefully, in the <link target="Support" name="Incompabilities"/> section.</p>
+
+</chapter>
+
+<chapter title="Requirements" desc="What you need before">
+
+<p>This tool uses <b>ANSI extensions</b> of standard text to produce some nice colored text from AmigaGuide format. Therefore the only thing require to have, is of course a good, capable <em>terminal interpreter</em>. I use mainly <u>rxvt</u> for my test, althrough it works well will Konsole from KDE2, Linux console, xterm, and co.</p>
+
+<p>Sadly it <b>does not include AmigaOS</b> terminal, although they are fully functionnal for graphics rendition, but differs notably in keyboard management, enough to be incompatible. Anyway, there exists a lot of better tool for this system (although not free software!).</p>
+
+<p>AGR has been designed to be just a quick and efficient replacement for all those who want to quickly read AmigaGuide documents into their Unix terminal session. I think, I almost reach my goal.</p>
+
+</chapter>
+
+<chapter title="Usage" desc="How to use the program">
+
+<p>The usage of this tool is dramatically simple. It accept only <b>one argument</b> on its command line, the <b>file name</b> you want to see.</p>
+
+<p>Then, if file format is recognize, you will see the entry point of all AmigaGuide document, the "MAIN" node. You can of course scroll the page using cursor keys. Along the page you may notice <b>special word</b> colored in blue and probably underlined: this represents AmigaGuide nodes. By selecting such node, using <b>Space key</b> or <b>enter</b>, it is possible to "jump" to this node and see its content. To do this just highlight the desired node, using <b>TAB key</b> (forward highlighting), <b>A</b> or <b>P</b> keys (backward highlighting). At last, it is possible to get to the previous visited page, with the <b>BackSpace</b> key.</p>
+
+<p>That's a classical sample session. Actually a lot of more commands are available. Here is an exhaustive list, starting from most frequently used:
+<definition-list indent="1">
+<li>
+<term>q or CTRL/C</term>
+<def>This simply <b>quits</b> immediatly the program, without any prompt.</def>
+</li><li>
+<term>cursor</term>
+<def>Cursor keys are used to <b>scroll</b> vertically the document (up/down keys) or horizontally, in case of viewing a wide document.</def>
+</li><li>
+<term>i, j, k, l</term>
+<def>These keys <b>emulate the directionnal pad</b>. Useful when the latter doesn't work.</def>
+</li><li>
+<term>PgUp, PgDown</term>
+<def>Simply <b>scroll</b> up/down one page. The number of lines scrolled is of course dependant to the terminal window's height. Keys I and K can be used as replacement.</def>
+</li><li>
+<term>Home, End</term>
+<def>Go to <b>beginning/end</b> of the displayed node. One more time, the emergency replacement keys are respectively `g' and `G'.</def>
+</li><li>
+<term>TAB, a</term>
+<def>Two very useful shortcuts designed to <b>highlight links</b> of AmigaGuide document. TAB key tries to highlight the first visible link, starting from the upper left corner of screen, or the next to the current highlighted link, if any. 'a' key does the reverse job: it highlights the first visible link, starting from bottom right corner or just the previous link, if there was any highlighted before.</def>
+</li><li>
+<term>Space, Enter</term>
+<def>As you've highlighted the desired node, you can <b>entered</b> in by using one of this keys.</def>
+</li><li>
+<term>Backspace</term>
+<def>Return back to the <b>previously visited node</b>.</def>
+</li><li>
+<term>1</term>
+<def>Any AmigaGuide node can defined a special help node, reachable using this key.</def>
+</li><li>
+<term>2</term>
+<def>In the same way, it is possible to defined a link to an <b>Index node</b>. This key simply jump to this one, if it is defined.</def>
+</li><li>
+<term>3</term>
+<def>Similarly, a "<b>Table Of Content</b>" node can be defined, this key can search for it.</def>
+</li><li>
+<term>n, b</term>
+<def>Nodes of an AmigaGuide document are placed one after the others. You can jump to the surrounding nodes of the one you are currently viewing, by using `n' to go to the <b>next</b> and `b' to go to the <b>previous</b> one. Be aware that document can redefines the order of where the nodes are placed.</def>
+</li><li>
+<term>+, -</term>
+<def>Well, actually this tool is able to display other source, than AmigaGuide document (ie: standard text). This format can't contains tabstop information, giving to the viewed document a very ugly aspect if tabstop isn't set to 8. With this keys, you can <b>adjust current tabstop</b> number for this file and thus see it more corectly.</def>
+</li><li>
+<term>t</term>
+<def>Tabstop is normally displayed in the status bar, everytime you change it. You can re<b>display it</b>, using this key without changing it.</def>
+</li><li>
+<term>r, CTRL+L</term>
+<def>If a background process has trashed your display, just use this key to <b>refresh</b> the screen. Sometimes, it's possible that terminal doesn't understand very well scrolling command, and just redraw the new appeared lines. With this command you can be sure that the whole screen will be redrawn, with no special hacks to optimize rendering.</def>
+</li><li>
+<term>?</term>
+<def>AmigaGuide document holds several <b>hidden properties</b>, that aren't generally displayed by most AmigaGuide readers. I really don't know why, but as it is very simple to do, this tool can display them.</def>
+</li><li>
+<term>v</term>
+<def>If a link can't be reached, an error will be displayed. But if you want to see the content that causes the error, use this key. Actually it exists other link type in AmigaGuide format, one can directly executes a system command. Because on Unix system it is particularly dangerous, that this link are represented using a different color and it is better to <b>see the command string</b> before to executes it.</def>
+</li><li>
+<term>=</term>
+<def>This tool display in the bottom of the screen, the percentage of the file viewed. With this command, you can see the <b>line number</b> of the first line displayed among the total number of lines.</def>
+</li><li>
+<term>C</term>
+<def>As this tool can read standard text format, with some ANSI colors specifiers, it is possible that this text file comes from AmigaOS environment. The problems with AmigaOS ANSI text, is that colors differ totally from Unix system, and so the resulting document will be rendered in a absolutly ugly way. This command will try to <b>convert colors</b> according to the standard colormap of Amiga Intuition v36+ (ie: OS2.0+). Sadly, only the 4 first colors are standardize, indeed I use the Iconographics style as it uses a similar colormap to the Unix one. Therefore supposed colors order of Amiga colormap is:
+<pre>
+	0:Light gray   1:Black  2:White   3:Light blue
+	4:Yellow       5:Blue   6:Green   7:Red
+</pre>
+</def>
+</li>
+</definition-list>
+Don't be worried, it exists of course an integrated <b>reference help-file</b>. To get it, just press the 'h' key. This tool has been designed to be as simple as possible, I hope you will find it too.</p>
+</chapter>
+
+<chapter title="AmigaGuide" desc="Overview of supported features">
+
+<p>Here will be describe the <b>AmigaGuide format</b> and the features supported by this tool. This is not a tutorial, although it's quite suffisant for understanding basic principles of AmigaGuide, which are actually not very complex. Anyway you can find good tutorials on any Aminet web site (<em><u>http://us.aminet.net</u></em>).</p>
+
+<subsection title="Background" target="AGBack" desc="AmigaGuide quick overview">
+
+<p>Here will be described general priciples to know before reading more adcanced topics.</p>
+
+<p>Basically, AmigaGuide documents are no more than <b>standard text</b>, in which a few set of commands enhance the formatting possibilities. Among, there are commands to turn on bold, italic or underlined styles, specify tabstop number, or change default color pen number, etc...</p>
+
+<p>All AmigaGuide commands begin with the '<b><at/></b>' symbol and are <b>case-insensitive</b>. Actually, there are 3 groups of comands: <b>Global</b>, <b>Node</b> and <b>Attributes</b>. Global commands are usualy specified at the begining of the document, before any nodes are defined, and apply to all the nodes in the document. Technicaly, they could be anywhere. Many commands can be used both globaly and inside a node.</p>
+
+<p>Node commands are usable inside of a node (after a '<at/>NODE' and before an '<at/>ENDNODE'), and affect only the node in which they are used.</p>
+
+<p>Attributes may be specified anywhere in a normal line.  In addition to the '<at/>' symbol, attributes always use a pair of braces ('{' and '}') to enclose the attribute name and possibly additional arguments.</p>
+
+<p>Many commands have been introduced over time, so some commands require a minimum OS version. These commands may be used without too much worry about compatibility, since older versions of Amigaguide largely ignore unknown commands. In this document, <b>unsupported commands</b> will be marked by a special mention.</p>
+
+</subsection>
+
+<subsection title="Global commands" target="AGCom" desc="Local and global nodes commands">
+
+<p>The following commands must be used only once, at the beginning of the document and before any node definition, since no forward search will be done after the first encountered commands. The content of each of this commands will be accessible in the information window of agr.</p>
+
+<p>This commands are case-insensitive, must be placed in the beginning of the line, and although it is not present, the '<at/>' symbol must precede all of them.
+
+<definition-list indent="1">
+<li><term>DATABASE name</term>
+<def>This is the most important command of an AmigaGuide document, since it identifies this file as an Amigaguide one. It must be placed in the very first line in the file, with no spaces before.</def>
+</li>
+
+<li><term>$VER: version string</term>
+<def>Specify an Amiga standard version string. "VER" must be uppercase, although this tool doesn't take care, but AmigaDOS "version" command does.</def>
+</li>
+
+<li><term>(C) copyright</term>
+<def>Specify a short copyright notice for this file.</def>
+</li>
+
+<li><term>AUTHOR name</term>
+<def>Specify the author of this file.</def>
+</li>
+
+<li><term>MASTER path</term>
+<def>Specifies the AmigaDOS file path of the original document this AmigaGuide file was derived from.</def>
+</li>
+</definition-list></p>
+
+<p>Here follows commands that can be placed both in global place or in a local node definition. In case of no local definition are provided, the global one will be used, and in no global exists, a default value is always available.
+
+<definition-list indent="1">
+<li><term>NODE name [title]</term>
+<def>Another major command, since it specifies the beginning of a hypertext node definition. Therefore all following content until the next ENDNODE command, will be placed in a part, and only that part will be displayed at a given time. If no title is given, "name" will be used. Actually name is the internal name of the node, used to connect the different node using hyper-link. If the title remains the same, you can omit it.</def>
+</li>
+
+<li><term>ENDNODE</term>
+<def>Terminates the definition of a hypertext node.</def>
+</li>
+
+<li><term>FONT name size</term>
+<def><unsupported/>Specify the font to use for the database. This makes of course no sense with terminal based viewer. The name of the font requires to have the ".font" extension.</def>
+</li>
+
+<li><term>HELP path/node</term>
+<def>Specify a help node accessible with the "Help" button (F1 key).</def>
+</li>
+
+<li><term>INDEX path/node</term>
+<def>Specify an index node accessible with the "Index" button (in this tool, the F2 key). node refers to a node in the file or a path to a different file. See <link name="Path and node definition" target="NodePath"/> for more details.</def>
+</li>
+
+<li><term>TOC path/node</term>
+<def>Specify an index node describing the Table Of Content of the file. Usually, the entry node "MAIN" is used, to return back quickly to the first visited place (reachable with the F3 key).</def>
+</li>
+
+<li><term>MACRO name commands</term>
+<def><unsupported/>Define a macro for this document. A macro is made up of attribute commands and or other macros, and is used like other attributes. A macro can override the built in attributes. A macro can accept arguments by embeding a '$' symbol with a number, for each argument supported; IE, '$1', '$2', etc. If an argument is given when using the macro, but is not defined in the macro, then it simply doesn't appear, which might be usefull to somebody. Actually this command is part of V40 of AmigaGuide specs.<br/>Example: <at/>macro bold "<at/>{b} $1 <at/>{ub}"<br/>                ...<br/>         This is an example of a <at/>{bold "bold"} macro.<br/></def>
+</li>
+
+<li><term>ONCLOSE rxcommand</term>
+<def><unsupported/>Specify an ARexx script to execute when this document is closed. The script's return value is not significant. ARexx will never be supported. v40.</def>
+</li>
+
+<li><term>ONOPEN rxcommand</term>
+<def><unsupported/>Specify an ARexx script to execute when this document is opened. The document will not be opened if the script returns an error.</def>
+</li>
+
+<li><term>REM remark<brterm/>REMARK remark</term>
+<def>Used to place a remark in the document. The entire line will not be displayed.</def>
+</li>
+
+<li><term>WORDWRAP</term>
+<def>Use wordwrapping for all paragraphs. To be wordwrapped, the paragraph must have no line feeds. Since this is ugly to work with, and ugly to look at in Amigaguide 2.x and lower, you should use SMARTWRAP and write your Amigaguide files to look wordwrapped - this makes your document look decent on all systems while taking advantage of V40 and above since SMARTWRAP will be ignored on pre-V40 Amiga's.</def>
+</li>
+
+<li><term>SMARTWRAP</term>
+<def>A more inteligent word wrapping algorithm than WORDWRAP. Paragraphs must be separated by two line feeds (ie:a blank line). Actually no matter where this command appears, if it is present, the entire node will be affected. v40.</def>
+</li>
+
+<li><term>TAB num</term>
+<def>Define the size in spaces of a tab. Defaults to 8.</def>
+</li>
+
+<li><term>HEIGHT rows</term>
+<def><unsupported/>This sets the number of rows in the longest node. Actually, it is used to adjust properly the vertical prop gadget. As agr doesn't have any, it is perfectly ignored.</def>
+</li>
+
+<li><term>WIDTH chars</term>
+<def><unsupported/>The number of columns in the largest node.</def>
+</li>
+</definition-list>
+</p>
+
+<p>At last, here is described commands that must be placed inside a node definition, although outside definitions are simply ignored.
+
+<definition-list indent="1">
+<li><term><a-s/></term>
+<def>Not really a command (no '<at/>' symbol must precede it!), but sometimes it is necessary to be able to use the '<at/>' symbol in your document, for words that might be disturbing for the AmigaGuide interpreter. Actually, its usage isn't well specificated between v40, and v39 and earlier. V39 and earlier simply prints it as a normal character, V40 escapes any character following. Agr escapes only character '<a-s/>' and '<at/>' that may follows.</def>
+</li>
+
+<li><term>PREV path/node</term>
+<def>Redefines the browsing order of the nodes. Actually, nodes are defined one after each others in the file. With the previous key (b) and the next key (n), you can browse through this order. In case it isn't well like this, you can force the order using this command.</def>
+</li>
+
+<li><term>NEXT path/node</term>
+<def>Converse command, of course.</def>
+</li>
+
+<li><term>TITLE title</term>
+<def>Specifies the title of this node, which is displayed in the status bar of agr. Usually title of the node is directly placed in the node declaration, therefore this command isn't very used.</def>
+</li>
+
+<li><term>KEYWORDS keywords</term>
+<def><unsupported/>Keywords for this node. Not currently used by Amigaguide, therefore nor by this tool.</def>
+</li>
+</definition-list></p>
+
+</subsection>
+
+<subsection title="Hypertext path" target="NodePath" desc="Path and node definition">
+
+<p>Some commands (INDEX, HELP, NEXT, PREV, TOC,...) and the all purpose hypertext link can specify other nodes to jump to. They all support the naming of nodes within the current document, but they also all support a path along with that name which lets the node be located in any Amigaguide document.</p>
+
+<p>To access a node in another document, simply put an <b>AmigaDOS file path</b> before the <b>node name</b>. You do not need a complete path including a volume name, if you are sure that the file is going to be where it should be (generaly, if it is not in the same directory as the main document, you should use a full path, maybe an assigned volume name). Some example paths are: "s:help.guide/main", "Amigaguide.guide/Copyright". Agr always assumes that path is written using AmigaDOS conventions and therefore converts it to Unix spec. See <link name="Incompatibilities" target="Support"/> for more details.</p>
+
+<p>If you are running AmigaOS 3.0 or above, you can jump to <b>any file</b> that is supported by Datatypes - pictures, animation, anything. You must still give a "node" name, even though the file is not an Amigaguide file and has no "nodes", so just use "main": "picture.iff/main". Well, as Unix doesn't have a such mechanism, recognition of file-types is done by agr, therefore only common file-types are supported:
+<unordered-list indent="4">
+<li><b>ANSI</b> or <b>normal text</b>.</li>
+<li><b>IFF</b>, <b>GIF</b> and <b>JPG picture</b> (viewed using <em>xv</em>).</li>
+</unordered-list>
+That's not a lot, but is suffisant for most case.</p>
+
+<p>Recognition of the file type is based using file extension for GIF and JPG pictures, for the others, a few bytes is read to determine it. Here is for example a link to an IFF file: <link name="IFF Picture" target="Snap.IFF/MAIN"/>.</p>
+
+</subsection>
+
+<subsection title="Attribute commands" target="AGAttr" desc="Formatting text">
+
+<p>Attribute command must be placed in a node definition, otherwise it will be simply ignored. Remember that all commands must have the '<at/>' symbol preceding.  It isn't displayed for some strange compatibility reason, with previous version of AmigaGuide.
+
+<definition-list indent="1">
+<li><term>{label command}</term>
+<def>Specify a hypertext link. Not really an attribute per so, but shares a similar syntax and scope. It may be specified anywhere on a line. The command is usualy "LINK", to specify a hypertext link to a node or a file, but there are other commands:
+
+<definition-list indent="4">
+<li><term>ALINK path/name line</term>
+<def><unsupported/>Display the hypertext node in a new window, starting at line. This no longer works in V39 and up, and anyway doesn't makes sense in this tool.</def>
+</li>
+<li><term>CLOSE</term>
+<def><unsupported/>Close the window, to be used with ALINK windows. Doesn't work in V39 and up, therefore nor in this tool.</def>
+</li>
+<li><term>LINK path/name line</term>
+<def>Display the hypertext node, starting at line. The name of a node refers to a node in this document, or a path to a node in another document. In AmigaOS 3.0 and above, the node may be a path to any type of file which is recognized by the Datatypes system. See <link name="Path and node definition" target="NodePath"/> for more details.</def>
+</li>
+<li><term>RX command</term>
+<def><unsupported/>Execute an ARexx script.</def>
+</li>
+<li><term>RXS command</term>
+<def><unsupported/>Execute an ARexx string file.</def>
+</li>
+<li><term>SYSTEM command</term>
+<def>Execute an AmigaDOS command. See <link name="Incompatibilities" target="Support"/> for more details.</def>
+</li>
+<li><term>QUIT</term>
+<def><unsupported/>Shutdown the current database. Doesn't work in V39 and up.</def>
+</li>
+</definition-list></def>
+</li>
+
+<li><term>{AMIGAGUIDE}</term>
+<def>Displays the word "AmigaGuide<copy-symb/>" in bold. v40.</def>
+</li>
+
+<li><term>{APEN n}</term>
+<def><unsupported/>Change the foreground (text) color to specified pen number. As part of v40 specs and because standard Amiga colormap is totally diferent from Unix, it is better to do not used this command and prefer the {fg color} one.</def>
+</li>
+
+<li><term>{B}</term>
+<def>Turn on bolding.</def>
+</li>
+
+<li><term>{BG color}</term>
+<def>Change the background to a preferences defined color. Color can be:
+<unordered-list indent="8">
+<li><b>Text</b> : standard color use for text.</li>
+<li><b>Shine</b> : normal color with bold attribute.</li>
+<li><b>Shadow</b> : light gray.</li>
+<li><b>Fill</b> : red.</li>
+<li><b>FillText</b> : yellow.</li>
+<li><b>Background</b> : standard background color.</li>
+<li><b>HighlightText</b> : cyan.</li>
+</unordered-list></def>
+</li>
+
+<li><term>{BODY}</term>
+<def><unsupported/>Restore default formatting for normal body text. v40, but unknown uage.</def>
+</li>
+
+<li><term>{BPEN n}</term>
+<def><unsupported/>Change the background color to specified pen number. v40.</def>
+</li>
+
+<li><term>{CLEARTABS}</term>
+<def>Restore default tabs. v40.</def>
+</li>
+
+<li><term>{CODE}</term>
+<def>Turn off wordwrapping. To reset wordwrapping, use command PARD. v40.</def>
+</li>
+
+<li><term>{FG color}</term>
+<def>Change the foreground color. See command BG for colors.</def>
+</li>
+
+<li><term>{I}</term>
+<def>Turn on italic style.</def>
+</li>
+
+<li><term>{JCENTER}</term>
+<def>Turn on centered justification. v40.</def>
+</li>
+
+<li><term>{JLEFT}</term>
+<def>Turn on left justification: this is the default. v40.</def>
+</li>
+
+<li><term>{JRIGHT}</term>
+<def>Turn on right justification. v40.</def>
+</li>
+
+<li><term>{LINDENT n}</term>
+<def>Specify an indent in spaces for the body of paragraphs. I.e: the <b>next</b> line will have n spaces before (left justification) or after (right justification). v40.</def>
+</li>
+
+<li><term>{LINE}</term>
+<def>Force a line feed without starting a new paragraph. v40.</def>
+</li>
+
+<li><term>{PAR}</term>
+<def>Specifies the end of the paragraph, equivalent to two line feeds and usable with SMARTWRAP. v40.</def>
+</li>
+
+<li><term>{PARD}</term>
+<def>Reset to default paragraph settings: APEN to 1, BPEN to 0, original font, LINDENT to 0 and default formatting (on AmigaOS, color 1 is black and 0, gray70). v40.</def>
+</li>
+
+<li><term>{PARI n}</term>
+<def>Specify an indent in spaces for the first line of a paragraph. Value is relative to LINDENT and may be negative. v40.</def>
+</li>
+
+<li><term>{PLAIN}</term>
+<def>Turns off all style attributes (i.e: bold, italic or underlined). v40.</def>
+</li>
+
+<li><term>{SETTABS n ... n}</term>
+<def>Specify a series of tab stops in spaces. v40.</def>
+</li>
+
+<li><term>{TAB}</term>
+<def><unsupported/>Outputs a real tab character. Actually this command force to do not convert tabulation into spaces. Useless for terminal since there is no control on output method. v40.</def>
+</li>
+
+<li><term>{U}</term>
+<def>Turn on underlining.</def>
+</li>
+
+<li><term>{UB}</term>
+<def>Turn off bolding.</def>
+</li>
+
+<li><term>{UI}</term>
+<def>Turn off italics.</def>
+</li>
+
+<li><term>{UU}</term>
+<def>Turn off underlining.</def>
+</li>
+</definition-list></p></subsection>
+
+</chapter>
+
+<chapter title="Incompatibilities" target="Support" desc="Features that will never work">
+
+<p>Sadly there are thing that isn't and can't never be supported by this tool. Here is the description of standard problems that you may encountered.</p>
+
+<p><em>First incompatibility</em>: <b>Amiga file path</b>. Of course, they differ from Unix ones, although they are almost similar. However this tool assumes that all path that refers to an external file, is written using AmigaOS conventions. Therefore they are always converted to Unix specs. Here are the main differences:
+<unordered-list indent="4">
+<li>AmigaOS directories are separated by <u>just one</u> slash ('/').</li>
+<li>If path begins by a slash ('/') or preceding another slash, it refers to the <u>parent directory</u>, and is replaced by '../'.</li>
+<li>If path contains a <u>volume specifier</u> (a name followed by a ':'), it is simply discarded.</li>
+<li>If AmigaDOS volume name is empty, then it refers to the root of current partition, therefore / on unix system.</li>
+</unordered-list>
+<pre>
+<em>Example</em>:
+	<b>AmigaGuide path:          Unix translation</b>:
+	:Images/ScreenShot.IFF    /Images/ScreenShot.IFF
+	//doc.guide               ../../doc.guide
+	IMG:Photo.jpg             Photo.jpg
+</pre></p>
+
+<p>Actually <b>several attempts</b> are done to locate external files pointed by AmigaGuide nodes:
+<ordered-list indent="4">
+	<li>First, agr tries to open the translated path from the <b>working directory</b> of the process. This is not very compliant with AmigaGuide, but can be sometimes helpful.</li>
+	<li>If this failed, it will try from the directory where the <b>starting document</b> remains. This is actually the only attempt of original AmigaGuide.</li>
+	<li>If this fails once again and the path contains a volume name, it will look from an <b>environment variable</b>, whose name is the same as the volume, with <b>all</b> letters in <b>uppercase</b> (whatever the case of the real volume name is) and without the ':'. If the variable exists, it will replace the volume name, by the <b>Unix path</b> contained in this variable, and then try to open the file.</li>
+	<li>Finally a last ressort is to defined the variable <b>AGR_PATH</b> to make it point to a default search directory, which will be added in case of all other attempts failed.</li>
+	<li>At last, if this fails too, an error will be displayed in the status bar, with the file name not located.</li>
+</ordered-list>
+</p>
+
+<p><em>The second problem</em> comes from AmigaOS <b>case insensitive</b> path. Unix path are case sensitive, and to be fully compatible with AmigaOS, it is required to rewrite accession method to all files. This is quite annoying to do, and sadly, hasn't be done. This tool simply assumes that the path is correctly spelled, using Unix conventions.</p>
+
+<p><em>Third</em>, it exists <b>special link type</b> (namely <b>rx</b> and <b>rxs</b>), that can execute ARexx script or string. As Rexx isn't integrated at all in most Unix system such type of link are simply displayed as unknown type link, and shown in a different color (usually red), displaying an error when attemping to execute them. <unknown-link/></p>
+
+<p><em>Fourth</em>, Command string contains in the "<b>System</b>"-type link, isn't converted at all. First, standard Amiga commands differ totally from Unix ones. Second, path can't be translated, since it quite impossible to determine whether a substring represents or not a path. Therefore, I decide to let it like it is.</p>
+
+<p><em>Fifth</em>, external link to ANSI text file are supposed to recpect full ANSI specs, and therefore no <b>color translation</b> is done. However, you can try to convert them from standard Amiga NewLook style to ANSI one, by using the 'C' key.</p>
+
+<p><em>Other</em> minor incompatibilities, the <b>backslash</b> character ('<a-s/>'). In version earlier to v40, this character is process like any other, but document that want to use '<at/>' symbol may encounter some problems. V40 spec indicates that all characters following the backslash should be processed as a normal one. Actually, I use a compromise between this two versions: when the basckslash is followed by the '<at/>' or the '<a-s/>', then only the following character is processed. Indeed, any other character will force to print both the backslash and the next character.</p>
+
+</chapter>
+
+<chapter title="Sources" desc="Some notes about sources">
+
+<p>This tool is <b>free woftware</b>. You can do want you want with it, as all related documents that come with. As always, <b>no warranty</b> is given, it is at your own risk that your computer may burn into flames, when attemping running this tool. However, it has proved to be quite stable on my system. Why not yours?</p>
+
+<p>Part of the sources has been taken from <b>less package</b> of <b>Mark Nudelman</b>, but has been greatly cleared, to just contains what's required for an Unix system. Although agr's sources are a lot of more readable than less ones, I've designed this tool as fast as possible, because I really needed it.</p>
+
+<p>This tool was written in ANSI C, with some gcc specific functions, and is composed of a little bit more than 2400 lines of code, totalizing almost 67Kb. This quite reasonable for a such program, although code could be more clear.</p>
+
+<p>This tool can perfectly be compiled under any <b>Unix</b> system with <b>GNU</b> developpement tools (make and gcc). You just have to type `make' in the source directory, and a command named `agr' will be generated. Then copy it whereever you want. It has been successfully compiled under Linux and Solaris. Documentation is written using an XML source and formatted with one XSL stylesheet per output format (HTML and AmigaGuide). Therefore you will need an <b>XSLT processor</b> to regenerate the documentation. I used Sablotron from <u>Ginger alliance</u>.</p>
+
+<p>What can become more interesting, its the possibility to <b>change standard colors</b> that is used to display special tokens in the document. Actually, standard colors has been choosen to best fit on white with black background terminal settings. Although it's quite usable with other configuration, some people may find them perfectible.</p>
+
+<p>Colors definitions are gathered in a simple C header file: AGNodes.h. Just scroll down a little bit the file, and you will find all the #defines. They represent of course the ANSI colors used to render text. You can for example change the default background colors by setting DEF_BGPEN define to '4', and thus force the background to be always blue. This is of course not a good idea, since it may produces strange result on poor terminal capabilities, therefore the only acceptable colors that may be changed is the foreground ones.</p>
+
+</chapter>
+
+</content>
+
+</manual>
+

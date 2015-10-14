@@ -1,0 +1,135 @@
+@DATABASE Test
+@author T.Pierron, tpierron@free.fr
+@$VER: AmigaGuide attribute commands test
+@(c) GPL
+@tab 6
+
+@node MAIN "This is a fifty characters wide title string....."
+@next snd
+@wordwrap
+
+	@{AmigaGuide} test file
+
+@{lindent 2}
+@{pari 2}This file contains almost all commands that are supported by this tool and show the formatting capabilities of this new version. Each paragraph is composed of a single word-wrapped line using \@WORDWRAP command. Left indentation is 2, alinea is also 2 and justification is left-aligned.
+
+@{lindent 5}
+@{jright}@{pari 2}This paragraph is right-aligned, with a right margin of 5 characters and a initial amout of 2 spaces. This shows how the paragraph are dynamicly formatted @{u}whatever@{uu} the terminal size is, even with huge dimension: the ouput method uses the standard buffered i/o C library (stdio) for @{b}all its outputs@{ub}.
+
+@{jcenter}Centerred text might be used too. Noticed that horizontal scrolling is always possible, but formatting always begins at column 0.
+
+@{lindent 2}
+@{jleft}@{pari 2}Here follows a staticly formatted text, for which word-wrapping is temporarely set to off.
+
+@{code}
+        |            .0880_08 8888888888.                             888                     
+        8           ;88; :888  :88;  :088                              88                     
+        8b          88;   888   88     088                             88                     
+       ;80         ;88    :08   88      888                            88                     
+       888.       ;88;     08   88      888                            88                     
+      ;8880       888           88      888                            88                     
+      8;880      .888           88      888                            88                     
+      8 888.     ;880           88     ;88                             88                     
+     d∞ :888     888:           88   .088                              88                     
+    .8   888.    888            88888888      _8880.    d088b.    ;880_88   _8880   8880._88. 
+    ;8   :888    888     00888  88 888;      ;88; :8.  00: ∞88   888∞:888  ;88; :8.  88888888 
+    d;    888.   888:      088  88 :888     ;88    88.      88  888p  q88 ;88    88. 888∞ 088 
+   .8     :888   :880      088  88  088.    888    888      88  888    88 888    888 888   08 
+   ;80§§§08888    880      088  88  :880    888    888 .080_88  888    88 888    888 888      
+   8;      888.   888      888  88   888    8888888880 ;888888  888    88 8888888880 888      
+  .8        888    88.     88;  88   088:   888       ;88   88  888    88 888        888      
+  ;8        888.   :88.   ;88   88   :888   :88    :: 888   88  :88    88 :88    ::  888      
+  8∞        :888    888.  88;  .88    8888   88.   ;: :88. .88   88.  888  88    ::  888      
+ ;8.         888.    888__88   ;88.    088:   88._;8;  880_088   :88_:888   88._;8; ;888.     
+8888:      :88888:    88888;  888888  888888   8888;   :8888888   :888 888   8888;  88888     
+
+
+@{pard}Word-wrapping should be now enable again. Let's try others formatting possibilities, which enable to enhance a little bit the test attributes:@{line}@{lindent 4}
+* @{lindent 6}@{b}Bold@{ub} (Standard [stupid] xterm config may render bold with blue color).@{lindent 4}
+* @{lindent 6}@{u}Underlined@{uu} (may not always work on every terminal).@{lindent 4}
+* @{lindent 6}@{i}Italic@{ui} (rarely supported. As far I know, only Amiga terminal fully support this special sequence).@{line}@{lindent 4}
+* @{fg detail}detail pen@{fg text} (rarely used)
+* @{fg block}block pen@{fg text} (rarely used)
+* @{fg shine}shine pen@{fg text}
+* @{fg shadow}shadow pen@{fg text}
+* @{fg fill}fill pen@{fg text}
+* @{fg filltext}filltext pen@{fg text}
+* @{fg back}background pen@{fg text}
+* @{fg highlighttext}highlighttext pen@{fg text}@{lindent 2}
+
+@{pari 2}This colors may be applied to background. Here follows special commands to shows their effects on the text. The @{b}plain@{ub} turn off only styles, but not colors, @{b}@{u}@{fg fill}like in this @{plain} sample string@{fg text}. Whereas @{b}@{u}@{fg block}pard@{pard} resets colors but not styles@{plain}. Notice that left indentation is also reset to column 0.@{lindent 2}
+
+@{pari 2}Another interresting feature of AmigaGuide v40, is the ability to manage tabulation that are not multiple of a given number, but start at a given column number, by giving a series of number with the settabs commands. This commands overrides temporarly the tab attribute, but can be restored using cleartabs command. This is especially useful for tabulation-separated file, to simply give them a readable aspect:
+
+@{settabs 3 20 32}
+@{b}	Command name:	Size:	Description:@{ub}
+	arch	2,712	Print host processor type.
+	rpm	889,128	RPM command line manager.
+	linuxconf	1,276,536	Main linux administration program.
+	# tabs will be reset to defaults on the next line@{cleartabs}
+	umount	28,380	Unmount filesystems.
+
+At last, here follows what is perhaps the main interresting feature with @{AmigaGuide}: it's the ability to link node together within the same document. It exists a lot of type of node, not all of them are supported, here are some classical examples:
+
+@{"   Normal  link   " link "snd"}	Jump to another node in this document
+@{"   Special link   " system "xv"}	"system" link that launch xv
+@{"   Special link   " system "Set2B:Tools/View /amiga/soft/Hunt/find.ilbm"}	"system" link that launch xv
+@{" Unsupported link " rxs "QUIT"}	Inline ARexx script unsupported
+
+Example of escaped and special characters:
+double anti-slash:      \\
+anti-slash - at:        \@
+anti-slash - n:         \n
+Non-ASCII characters:        Ä à è ê ñ ü
+
+@endnode
+@node snd
+@prev main
+@smartwrap
+@title "SmartWrap example"
+
+@{lindent 4}
+This is a first paragraph to whether AGReader support formatting of
+paragraph that fits the whole screen's width, even if the paragraph isn't
+gathered into one line. Thus it works like in HTML with the <P> tag.
+
+@REM 
+@REM This text should not be displayed into the viewer
+@REM Entire line including newline should be discarded
+@REM This is just comment to hide some useless strings
+@REM 
+
+@{code}
+abc   def		jhi
+eklda dkalzmdad =>@{par}<= lmkldza
+dklmzaml dklmaklmdmlmlk
+dzkldmklalzmkdklmazkldm
+
+hello world hello world hello world hello world hello world hello world hello world 
+ello world hello world hello world hello world hello world hello world hello world h
+llo world hello world hello world hello world hello world hello world hello world he
+lo world hello world hello world hello world hello world hello world hello world hel
+o world hello world hello world hello world hello world hello world hello world hell
+ world hello world hello world hello world hello world hello world hello world hello
+world hello world hello world hello world hello world hello world hello world hello 
+ello world hello world hello world hello world hello world hello world hello world h
+llo world hello world hello world hello world hello world hello world hello world he
+lo world hello world hello world hello world hello world hello world hello world hel
+o world hello world hello world hello world hello world hello world hello world hell
+ world hello world hello world hello world hello world hello world hello world hello
+world hello world hello world hello world hello world hello world hello world hello 
+
+@{pard}
+Reader (agr for short) is a tiny tool to read Amiga documentation format,
+in a user-friendly way (although console-based) similar to less.
+@{par}It supports for now only v39 of AmigaGuide specifications, but still be
+usable for numerous documents. Here is explained AmigaGuide functionnalities
+supported.
+
+@endnode
+@node deus
+
+		...........................................;;
+
+@endnode
+
