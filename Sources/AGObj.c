@@ -7,6 +7,7 @@
 
 #include <ctype.h>
 #include <string.h>
+#include "AG_lib.h"
 #include "AGReader.h"
 #include "AGNodes.h"
 #include "AGObj.h"
