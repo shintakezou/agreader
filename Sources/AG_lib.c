@@ -399,7 +399,7 @@ char CreateAGWords( AGNode node )
 						case 17:
 						{	char style = AGC.style;
 							AGC.style = FSF_BOLD;
-							new = NewWord(par,new,"AmigaGuide©",&AGC);
+							new = NewWord(par,new,"AmigaGuide\xa9",&AGC);
 							AGC.style = style;
 						}	break;
 						case 18: par=NewPara(par,&AGC); node->maxlines++; new = NULL;
@@ -619,7 +619,7 @@ void RenderLine(AGPara para, short start, short max, char ins_mode)
 	** otherwise, display is scrolled. This is how scrolling down works. */
 	switch( ins_mode )
 	{
-		case INSERT_TOP: strcpy(p,"[HM"); p+=5; break;
+		case INSERT_TOP: strcpy(p,"\033[H\033M"); p+=5; break;
 		case INSERT_BOTTOM: *p++='\n'; break;
 	}
 
@@ -662,8 +662,8 @@ void RenderLine(AGPara para, short start, short max, char ins_mode)
 		cp = NULL;
 	}	*p = 0;
 	/* `Clears' end of line */
-	if(p > buffer) fputs(p = buffer,stdout); printf("[0m");
-	if(bgpen != 0) printf("[4%cm",bgpen);
+	if(p > buffer) fputs(p = buffer,stdout); printf("\033[0m");
+	if(bgpen != 0) printf("\033[4%cm",bgpen);
 	if(i < max)    printf("%*s",max-i," ");
 }
 

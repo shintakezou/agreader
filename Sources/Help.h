@@ -7,14 +7,14 @@
 #include "Version.h"
 #include "Text.h"
 
-#define	LGR(str)				"[32;1m" str "[0m"
-#define	DGR(str)				"[32m" str "[0m"
+#define	LGR(str)				"\033[32;1m" str "\033[0m"
+#define	DGR(str)				"\033[32m" str "\033[0m"
 #define	LST(str1,str2)		LGR(str1) ", " str2
 
 #define	STR_HELP		\
-"\n\t\t[1mAGReader v" SVER " Command Reference[0m\n\n" \
-"  This is a very quick reference, [4mread[0m documentation for full detail.\n\n[1m" \
-"Shortcut....... What it does ____________________________________[0m\n" \
+"\n\t\t\033[1mAGReader v" SVER " Command Reference\033[0m\n\n" \
+"  This is a very quick reference, \033[4mread\033[0m documentation for full detail.\n\n\033[1m" \
+"Shortcut....... What it does ____________________________________\033[0m\n" \
  LST("q", LGR("CTRL/C")) "...... Quit the program.\n" \
  DGR("cursor") "......... Move up/down one line, 5 columns left/right.\n" \
  LST("i",LST("j",LST("k",LGR("l")))) "..... Cursor equivalent (if latter doesn't work).\n" \
@@ -36,6 +36,6 @@
  LGR("v") ".............. Show content of the activated link (ie:\"system\" link).\n" \
  LGR("=") ".............. Display current line number.\n" \
  LGR("C") ".............. Convert Amiga colors to Unix ones for ANSI text file.\n" \
-"\n[1mPress BS to quit this page[0m\n\n"
+"\n\033[1mPress BS to quit this page\033[0m\n\n"
 
 #endif
