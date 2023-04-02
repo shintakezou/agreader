@@ -1,4 +1,3 @@
 /** Version number of AmigaGuide Reader **/
 
-#define	SVER		"1.2"
-
+#define SVER "1.2"

@@ -1,0 +1,15 @@
+---
+Language:  Cpp
+BasedOnStyle:  WebKit
+AllowShortFunctionsOnASingleLine: false
+BraceWrapping:
+  AfterEnum:       true
+  AfterFunction:   true
+  AfterStruct:     true
+  AfterUnion:      true
+ColumnLimit:     0
+DeriveLineEnding: false
+IndentCaseLabels: true
+TabWidth:        4
+---
+

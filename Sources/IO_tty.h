@@ -1,10 +1,10 @@
 /*** Basic functions to do with TTY ***/
 
-#ifndef	IO_TTY_H
-#define	IO_TTY_H
+#ifndef IO_TTY_H
+#define IO_TTY_H
 
 /** Switch between normal (0) or raw (1) mode **/
-void raw_mode( int );
+void raw_mode(int);
 
 /** Test whether raw mode is on **/
 char is_rawmode(void);
@@ -16,7 +16,7 @@ void open_getchr(void);
 char getchr(void);
 
 /** Get terminal dimension **/
-void get_termsize(short *);
+void get_termsize(short*);
 
 /** Set the region affected by the scrolling **/
 void set_scroll_region(short height);
@@ -29,7 +29,6 @@ typedef void (*sighandler_t)(int);
 void init_signals(int on, sighandler_t sig_int, sighandler_t sig_winch);
 
 /** Simple integer to string conversion **/
-char *my_itoa(char *, short);
+char* my_itoa(char*, short);
 
 #endif
-
