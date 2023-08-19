@@ -29,8 +29,9 @@ void Prompt( char *str )
 	{
 		/* Fucking printf doesn't cut string if larger than * */
 		if( plen > terminfo.width-7 )
-			memcpy(svg, str + (plen = terminfo.width - 8), 2),
+			memcpy(svg, str + (plen = terminfo.width - 8), 2), /* better avoiding comma op... */
 			memcpy(str + plen, "\xbb", 2);
+
 
 		printf("\033[%d;H\033[0;7m%4d%%%*s\033[0m\033[%d;6H",
 				terminfo.height,(node && node->maxlines > terminfo.height ?
@@ -161,20 +162,22 @@ void ChangeTabstop(AGNode node, short step)
 /*** Process key-in commands ***/
 void ProcessKeys( void )
 {
-	static char *Keys[] = {
-		"OA", "OB", "OC","OD",        /* Cursor keys */
-		"[5~","[6~","[H","[F",        /* PgDown, PgUp, End, Home */
-		"[1~","[4~","OH","OF",        /* 2x Alternative End, Home */
-		"[11~","[12~", "[13~",        /* F1, F2, F3 */
-		"OP" ,"OQ", "OR",             /* Alternative F1, F2, F3 */
-		"[[A","[[B","[[C", NULL       /* Linux console F1, F2, F3 */
+    static char* Keys[] = {
+        "OA", "OB", "OC", "OD", /* Cursor keys */
+        "[5~", "[6~", "[H", "[F", /* PgDown, PgUp, End, Home */
+        "[1~", "[4~", "OH", "OF", /* 2x Alternative End, Home */
+        "[11~", "[12~", "[13~", /* F1, F2, F3 */
+        "OP", "OQ", "OR", /* Alternative F1, F2, F3 */
+        "[[A", "[[B", "[[C", /* Linux console F1, F2, F3 */
+        "[Z", /* backtab */
+        NULL
 	};
 	static char *StrNode[] = {
 		"help", "index", "table of content"
 	};
 	extern struct scrpos terminfo;
 	static char buffer[10], *p;
-
+	
 	/* Display node's name in status bar */
 	Prompt(AGNODE(&terminfo)->title);
 	for(p=buffer; ; ) {
@@ -221,7 +224,9 @@ void ProcessKeys( void )
 						case 18: p[-1] = '1'; goto singleton;
 						case 19: p[-1] = '2'; goto singleton;
 						case 20: p[-1] = '3'; goto singleton;
-					}
+                        /* backtab */ 
+                        case 21: FindNextLink(&terminfo, -1); goto singleton;
+                                        }
 					p=buffer;
 				} else goto singleton;
 			} else goto singleton;
