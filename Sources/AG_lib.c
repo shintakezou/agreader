@@ -353,82 +353,83 @@ char CreateAGWords( AGNode node )
 			p    = ++buf;
 
 		} else if(*buf == '@') {  /* Start of an AmigaGuide style modifier */
-		if( buf[1] == '{' )
-		{
-			char **token; *buf='\0';
-			/* Create a word with previous characters */
-			if(p < buf) new = NewWord(par,new,p,&AGC);
-
-			/* Search for attribute modifier */
-			for(buf+=2, token=AttrTokens; *token; token++)
+			if( buf[1] == '{' )
 			{
-				short len = strlen(*token);
-				if( !strncasecmp(buf,*token,len) &&
-				    (buf[len] == '}' || token-AttrTokens>=9 ) )
+				char **token; *buf='\0';
+				/* Create a word with previous characters */
+				if(p < buf) new = NewWord(par,new,p,&AGC);
+
+				/* Search for attribute modifier */
+				for(buf+=2, token=AttrTokens; *token; token++)
 				{
-					/* Search for a known token */
-					switch( token-AttrTokens )
+					short len = strlen(*token);
+					if( !strncasecmp(buf,*token,len) &&
+						(buf[len] == '}' || token-AttrTokens>=9 ) )
 					{
-						case 0:  AGC.style |= FSF_BOLD; break;
-						case 1:  AGC.style |= FSF_ITALIC; break;
-						case 2:  AGC.style |= FSF_UNDERLINED; break;
-						case 3:  AGC.style &= ~FSF_BOLD; break;
-						case 4:  AGC.style &= ~FSF_ITALIC; break;
-						case 5:  AGC.style &= ~FSF_UNDERLINED; break;
-						case 6:  par->align = AGC.align = JM_NORMAL;  break;
-						case 7:  par->align = AGC.align = JMF_CENTER; break;
-						case 8:  par->align = AGC.align = JMF_RIGHT;  break;
-						case 9:  new = NewIndent(par,new,AGC.indent = ParseAGInt(buf+7,'}',0));
-						         break;
-						case 10: par->alinea = ParseAGInt(buf+4,'}',0); break;
-						case 11: AGC.style = FS_NORMAL; break;
-						case 12: par->alinea = 0; par->align = AGC.align = JM_NORMAL;
-						         AGC.fgpen = DEF_FGPEN;        AGC.bgpen = DEF_BGPEN;
-						         if(AGC.wrap != node->wordwrap || AGC.indent != 0)
-						            new = NewResetPara(par,new,AGC.wrap = node->wordwrap);
-									AGC.indent = 0;
-						         break;
-						case 13: new = NewObject(par, new, WrapOFF, 0);
-						         AGC.wrap = WRAP_OFF; break;
-						case 14: par=NewPara(par,&AGC); node->maxlines++;
-						         new = NULL; break;
-						case 15: new = NewTabs(par,new,buf+7);
-						         AGC.ts = TABSTOP((AGObj)new); break;
-						case 16: new = NewObject(par, new, ClearTabs, 0);
-						         AGC.ts = NULL; break;
-						case 17:
-						{	char style = AGC.style;
-							AGC.style = FSF_BOLD;
-							new = NewWord(par,new,"AmigaGuide©",&AGC);
-							AGC.style = style;
-						}	break;
-						case 18: par=NewPara(par,&AGC); node->maxlines++; new = NULL;
-						         if(AGC.wrap != WRAP_SMART)
-						            par=NewPara(par,&AGC),node->maxlines++;
-						         break;
-						case 19: FillAGStyles(&AGC.fgpen, &AGC.style, buf+3); break;
-						case 20: FillAGStyles(&AGC.bgpen, NULL,       buf+3); break;
-						case 21:
-						{	AGWord lnk;
-							/* This is a special case */
-							if( (lnk = CreateAGLink(buf+1)) != NULL )
-								InsertAGWord(par,lnk,new),
-								lnk->bgpen = AGC.bgpen, new=lnk;
+						/* Search for a known token */
+						switch( token-AttrTokens )
+						{
+							case 0:  AGC.style |= FSF_BOLD; break;
+							case 1:  AGC.style |= FSF_ITALIC; break;
+							case 2:  AGC.style |= FSF_UNDERLINED; break;
+							case 3:  AGC.style &= ~FSF_BOLD; break;
+							case 4:  AGC.style &= ~FSF_ITALIC; break;
+							case 5:  AGC.style &= ~FSF_UNDERLINED; break;
+							case 6:  par->align = AGC.align = JM_NORMAL;  break;
+							case 7:  par->align = AGC.align = JMF_CENTER; break;
+							case 8:  par->align = AGC.align = JMF_RIGHT;  break;
+							case 9:  new = NewIndent(par,new,AGC.indent = ParseAGInt(buf+7,'}',0));
+									break;
+							case 10: par->alinea = ParseAGInt(buf+4,'}',0); break;
+							case 11: AGC.style = FS_NORMAL; break;
+							case 12: par->alinea = 0; par->align = AGC.align = JM_NORMAL;
+									AGC.fgpen = DEF_FGPEN;        AGC.bgpen = DEF_BGPEN;
+									if(AGC.wrap != node->wordwrap || AGC.indent != 0)
+										new = NewResetPara(par,new,AGC.wrap = node->wordwrap);
+										AGC.indent = 0;
+									break;
+							case 13: new = NewObject(par, new, WrapOFF, 0);
+									AGC.wrap = WRAP_OFF; break;
+							case 14: par=NewPara(par,&AGC); node->maxlines++;
+									new = NULL; break;
+							case 15: new = NewTabs(par,new,buf+7);
+									AGC.ts = TABSTOP((AGObj)new); break;
+							case 16: new = NewObject(par, new, ClearTabs, 0);
+									AGC.ts = NULL; break;
+							case 17:
+							{	char style = AGC.style;
+								AGC.style = FSF_BOLD;
+								new = NewWord(par,new,"AmigaGuide\xa9",&AGC);
+								AGC.style = style;
+							}	break;
+							case 18: par=NewPara(par,&AGC); node->maxlines++; new = NULL;
+									if(AGC.wrap != WRAP_SMART)
+										par=NewPara(par,&AGC),node->maxlines++;
+									break;
+							case 19: FillAGStyles(&AGC.fgpen, &AGC.style, buf+3); break;
+							case 20: FillAGStyles(&AGC.bgpen, NULL,       buf+3); break;
+							case 21:
+							{	AGWord lnk;
+								/* This is a special case */
+								if( (lnk = CreateAGLink(buf+1)) != NULL )
+									InsertAGWord(par,lnk,new),
+									lnk->bgpen = AGC.bgpen, new=lnk;
+							}
 						}
+						break;
 					}
-					break;
 				}
-			}
-			/* Go through the end of tag */
-			while(*buf != '}') buf++; *buf='\0'; p = buf+1;
+				/* Go through the end of tag */
+				while(*buf != '}') buf++; *buf='\0'; p = buf+1;
 
-		} else if(buf[1] == AG_COMMAND) {
+			} else if(buf[1] == AG_COMMAND) {
 
-			/* AmigaGuide commands are situated at beginning of line and **
-			** already processed in CreateAGNodes(), so just skip them.  */
-			while(*buf != '\n') buf++;
-			*buf='\0'; p = buf+1;
-		} }
+				/* AmigaGuide commands are situated at beginning of line and **
+				** already processed in CreateAGNodes(), so just skip them.  */
+				while(*buf != '\n') buf++;
+				*buf='\0'; p = buf+1;
+			} 
+		}
 	}
 	for(; PREV(par); par = PREV(par));
 	node->AGContent = node->Shown = par;
@@ -619,7 +620,7 @@ void RenderLine(AGPara para, short start, short max, char ins_mode)
 	** otherwise, display is scrolled. This is how scrolling down works. */
 	switch( ins_mode )
 	{
-		case INSERT_TOP: strcpy(p,"[HM"); p+=5; break;
+		case INSERT_TOP: strcpy(p,"\033[H\033M"); p+=5; break;
 		case INSERT_BOTTOM: *p++='\n'; break;
 	}
 
@@ -662,8 +663,8 @@ void RenderLine(AGPara para, short start, short max, char ins_mode)
 		cp = NULL;
 	}	*p = 0;
 	/* `Clears' end of line */
-	if(p > buffer) fputs(p = buffer,stdout); printf("[0m");
-	if(bgpen != 0) printf("[4%cm",bgpen);
+	if(p > buffer) fputs(p = buffer,stdout); printf("\033[0m");
+	if(bgpen != 0) printf("\033[4%cm",bgpen);
 	if(i < max)    printf("%*s",max-i," ");
 }
 
@@ -698,7 +699,6 @@ void ReRenderAGNode( void )
 		node->Shown,  terminfo.height-1,
 		node->column, terminfo.width, OVERWRITE
 	);
-//	sleep(4);
 	Prompt( node->title );
 }
 

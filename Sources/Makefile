@@ -3,7 +3,7 @@
 
 CC=gcc
 EXE=agr
-CFLAGS=#-DNO_STR_HELP
+CFLAGS=-std=c89 -pedantic -Wall -Wextra -D_DEFAULT_SOURCE #-DNO_STR_HELP
 INCDIR=
 LIBS=
 OBJECTS=main.o IO_tty.o AG_lib.o AGObj.o Input.o Navigate.o Text.o

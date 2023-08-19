@@ -12,13 +12,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-#ifdef	DEBUG_MEM						/* Track memory deallocation */
-#define	free(X)		FreeMem(X)
-#define	malloc(X)	AllocMem(X)
-#endif
-
-/* Used to represent linked list */
-typedef struct _AGList
+	/* Used to represent linked list */
+	typedef struct _AGList
 {
 	void *next, *prev;
 }	*AGList;

@@ -21,7 +21,7 @@ void quit(char *msg, int status)
 	PopAGNodes();
 #ifdef	DEBUG_MEM
 	{ extern long nb_alloc, nb_free, mem_alloc;
-	  printf("Mem usage: %ld alloc (%d bytes), %ld free\n",
+	  printf("Mem usage: %ld alloc (%ld bytes), %ld free\n",
 	         nb_alloc, mem_alloc, nb_free);
 	}
 #endif
