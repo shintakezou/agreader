@@ -29,10 +29,11 @@ void Prompt( char *str )
 	{
 		/* Fucking printf doesn't cut string if larger than * */
 		if( plen > terminfo.width-7 )
-			memcpy(svg, str + (plen = terminfo.width - 8), 2),
-			memcpy(str + plen, "»", 2);
+			memcpy(svg, str + (plen = terminfo.width - 8), 2), /* better avoiding comma op... */
+			memcpy(str + plen, "\xbb", 2);
 
-		printf("[%d;H[0;7m%4d%%%*s[0m[%d;6H",
+
+		printf("\033[%d;H\033[0;7m%4d%%%*s\033[0m\033[%d;6H",
 				terminfo.height,(node && node->maxlines > terminfo.height ?
 				(100 * node->line) / ((int)node->maxlines-terminfo.height+1) : 100),
 				terminfo.width-5,str,terminfo.height
@@ -40,7 +41,7 @@ void Prompt( char *str )
 		if( svg[0] ) memcpy(str + plen, svg, 2);
 	}
 	else /* Strange terminal size... */
-		printf("[%d;H[0;7m%*s[0m",terminfo.height, terminfo.width-1, "");
+		printf("\033[%d;H\033[0;7m%*s\033[0m",terminfo.height, terminfo.width-1, "");
 
 	fflush(stdout);
 }

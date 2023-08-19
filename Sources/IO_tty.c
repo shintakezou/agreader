@@ -20,14 +20,14 @@ char underlined=1;	/* 1 if terminal support underlined mode */
 /** This sequence is to get a private mode in a xterm & co ***
 *** while viewing a file (quoted from konsole tech specs)  **/
 char SET_PRIV[]=
-	"7"             /* Save cursor position */
-	"[?47;1h";      /* Enter in private mode (47) and set mode AppCuKeys (1) */
+	"\0337"             /* Save cursor position */
+	"\033[?47;1h";      /* Enter in private mode (47) and set mode AppCuKeys (1) */
 
 /** This sequence is to get back in normal mode **/
 char SET_PUB[]=
-	"[2J"				/* Clears screen */
-	"[?1;47l"       /* Reset AppCuKeys (1) and private (47) mode */
-	"8";            /* Restore cursor position */
+	"\033[2J"				/* Clears screen */
+	"\033[?1;47l"       /* Reset AppCuKeys (1) and private (47) mode */
+	"\0338";            /* Restore cursor position */
 
 /** Current state mode (0:normal, 1:private) **/
 static int old_st = 0;
@@ -198,7 +198,7 @@ char getchr(void)
 void set_scroll_region( short height )
 {
 	/* This sequence sets the vertical scrolling region */
-	printf("[1;%dr",height);
+	printf("\033[1;%dr",height);
 	fflush(stdout);
 }
 
@@ -228,7 +228,7 @@ void get_termsize(short *wh)
 void set_cursor_pos(short line, short col)
 {
 	/* The special escape sequence is: \e[Py;PxH */
-	printf("[%d;%dH", line, col);
+	printf("\033[%d;%dH", line, col);
 }
 
 /*** Setup various handler ***/

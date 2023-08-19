@@ -135,7 +135,7 @@ AGWord DisableSpecialChar(AGPara par,AGWord old, unsigned char);
 #define	IS_SPECIAL(c)			(c != '\t' && (c < 32 || (128 <= c && c < 160)))
 
 /** Possible values for `mode' parameter **/
-#define	INSERT_TOP				0		/* Insert sequence [HM at beginning */
+#define	INSERT_TOP				0		/* Insert sequence \033[H\033M at beginning */
 #define	INSERT_BOTTOM			1		/* Insert sequence \n at beginning */
 #define	OVERWRITE				2		/* Print line as-is */
 
